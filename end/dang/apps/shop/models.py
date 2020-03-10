@@ -48,6 +48,6 @@ class Comment(models.Model):
     date_time = models.DateTimeField(auto_now_add=True, verbose_name="创建时间")
 
     def __str__(self):
-        return self.user.name
+        return self.user.username
 
 

@@ -2,7 +2,21 @@ from rest_framework import serializers
 from .models import *
 
 
+class CommentSerializer(serializers.ModelSerializer):
+    user = serializers.CharField(source="user.username", read_only=True)
+    user_img = serializers.CharField(source="user.img", read_only=True)
+    article = serializers.CharField(source="article.title", read_only=True)
+
+    class Meta:
+        model = Comment
+        fields = "__all__"
+
+
 class ArticleSerializer(serializers.ModelSerializer):
+    user = serializers.CharField(source="user.username", read_only=True)
+    category = serializers.CharField(source="category.name", read_only=True)
+    arcomment = CommentSerializer(many=True)
+
     class Meta:
         model = Article
         fields = "__all__"
@@ -86,9 +100,3 @@ class UserRegistSerializer(serializers.Serializer):
     def create(self, validated_data):
         return User.objects.create_user(username=validated_data.get("username"), email=validated_data.get("email"),
                                         password=validated_data.get("password"))
-
-
-class CommentSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Comment
-        fields = "__all__"

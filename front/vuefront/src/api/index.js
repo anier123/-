@@ -28,25 +28,38 @@ axios.interceptors.response.use(function(response){
 });
 	
 // 
-
+// 轮播图接口
 export const getImgList =()=>{
 	return axios.get('/api/v1imgs/')
 }
+ // 获取文章列表api接口
 export const getArticleList =()=>{
 	return axios.get('/api/v1articles/')
 }
-
+// 导航栏分类获取
 export const getCategoryList =()=>{
 	return axios.get('/api/v1categorys/')
 }
-// 
-// export const getCategoryDetail =(parm)=>{
-// 	return axios.get(`/api/v1categorys/${parm.id}`)
-// }
-// 
-// export const getToken =(parm)=>{
-// 	return axios.post('/obtaintoken/', parm)
-// }
+// 获取文章详情
+export const getArticleDetail =(parm)=>{
+	return axios.get(`/api/v1articles/${parm.id}`)
+}
+// 修改文章的点赞数
+export const getArticleClick =(parm)=>{
+	return axios.patch(`/api/v1articles/${parm.id}/`,parm)
+}
+//获取每篇文章的评论列表
+export const getCommentList =()=>{
+	return axios.get('/api/v1comments/')
+}
+//修改评论点赞数
+export const getCommentClick =(parm)=>{
+	return axios.patch(`/api/v1comments/${parm.id}/`,parm)
+}
+
+export const getToken =(parm)=>{
+	return axios.post('/obtaintoken/', parm)
+}
 // 
 // export const createCategory=(parm)=>{
 // 	return axios.post('/api/v1categorys/', parm)

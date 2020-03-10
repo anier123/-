@@ -145,20 +145,35 @@
 				})
 			},
 			loginn(){
-				if(this.loginusername.length<=0||this.password.length<=0){
-					this.$toast("必填项目不能为空");
-				}
-				else{
-					if(localStorage.getItem(this.loginusername)==this.password){
-						this.$toast("登录成功")
-						localStorage.setItem("islog",true,{expires:7})
-						this.$router.push(this.$route.query.t)
-					}
-					else{
-						this.$toast("用户名或者密码错误")
-						this.password=""
-					}
-				}
+				this.$api.getToken({
+					username:this.loginusername,
+					password:this.password
+				}).then(res=>{
+					console.log("登录成功",res);
+					this.$jsCookie.set("refresh", res.data.refresh);
+					this.$jsCookie.set("access", res.data.access);
+					this.$jsCookie.set("username",this.username);
+					localStorage.setItem("islog",true,{expires:7})
+					// this.$router.push(this.$route.query.t)
+					// this.$store.commit("setLog",true);
+					this.$router.push("/");
+				}).catch(err=>{
+					console.log("失败了", err)
+				})
+				// if(this.loginusername.length<=0||this.password.length<=0){
+				// 	this.$toast("必填项目不能为空");
+				// }
+				// else{
+				// 	if(localStorage.getItem(this.loginusername)==this.password){
+				// 		this.$toast("登录成功")
+				// 		localStorage.setItem("islog",true,{expires:7})
+				// 		this.$router.push(this.$route.query.t)
+				// 	}
+				// 	else{
+				// 		this.$toast("用户名或者密码错误")
+				// 		this.password=""
+				// 	}
+				// }
 			},
 			regist(){
 				if(this.username.length<=0 || this.password1.length==0 || this.password2.length==0){
